@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎈 Sesli İngiliz Dili</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 30%, #fdfcfb 60%, #a8edea 100%);
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', cursive, sans-serif;
+            padding: 15px;
+            overflow-x: hidden;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            padding: 18px 20px 15px;
+            border-radius: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            color: #2d3436;
+            text-shadow: 4px 4px 0 #fd79a8, 6px 6px 0 rgba(0,0,0,0.1);
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h1 .emoji-big {
+            font-size: 3rem;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2d3436;
+            box-shadow: 0 4px 0 #b2bec3;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 2px solid white;
+        }
+
+        .info-item .value {
+            color: #e17055;
+            font-size: 1.3rem;
+            min-width: 30px;
+        }
+
+        .info-item .value.gold {
+            color: #fdcb6e;
+        }
+
+        .timer-display {
+            background: #2d3436;
+            color: #fdcb6e;
+            font-size: 1.5rem;
+            padding: 8px 22px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            border: 3px solid #fdcb6e;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .timer-display.warning {
+            animation: timerPulse 0.6s infinite alternate;
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        @keyframes timerPulse {
+            from { transform: scale(1); background: #2d3436; }
+            to { transform: scale(1.05); background: #4a0000; }
+        }
+
+        .level-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 12px 0 8px;
+        }
+
+        .level-btn {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.7);
+            color: #2d3436;
+            box-shadow: 0 4px 0 #b2bec3;
+            font-family: inherit;
+            border: 2px solid white;
+            min-width: 52px;
+        }
+
+        .level-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #b2bec3;
+        }
+
+        .level-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0px 0 #b2bec3;
+        }
+
+        .level-btn.active {
+            background: #fd79a8;
+            color: white;
+            box-shadow: 0 4px 0 #6c5ce7;
+            border-color: #6c5ce7;
+            transform: scale(1.05);
+        }
+
+        .level-btn.completed {
+            background: #00b894;
+            color: white;
+            box-shadow: 0 4px 0 #006b54;
+            border-color: #006b54;
+        }
+
+        .level-btn.completed::after {
+            content: ' ✓';
+        }
+
+        .stage-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 8px 0 12px;
+        }
+
+        .stage-btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.6);
+            color: #636e72;
+            box-shadow: 0 4px 0 #b2bec3;
+            font-family: inherit;
+            border: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stage-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 0 #b2bec3;
+        }
+
+        .stage-btn:active:not(:disabled) {
+            transform: translateY(4px);
+            box-shadow: 0 0px 0 #b2bec3;
+        }
+
+        .stage-btn.active {
+            background: #6c5ce7;
+            color: white;
+            box-shadow: 0 4px 0 #341f97;
+            border-color: #fd79a8;
+            transform: scale(1.05);
+        }
+
+        .stage-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .stage-btn .stage-icon {
+            font-size: 1.3rem;
+        }
+
+        .number-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+            max-width: 700px;
+            width: 100%;
+            margin: 10px auto;
+            padding: 10px;
+        }
+
+        .number-box {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 10px 0 #b2bec3, 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 20px 10px;
+            text-align: center;
+            font-size: 3.2rem;
+            font-weight: bold;
+            color: #2d3436;
+            transition: all 0.1s ease;
+            cursor: pointer;
+            user-select: none;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid white;
+            position: relative;
+        }
+
+        .number-box:active:not(.found) {
+            transform: translateY(8px);
+            box-shadow: 0 2px 0 #b2bec3;
+        }
+
+        .number-box.found {
+            background: #00b894 !important;
+            color: white;
+            transform: translateY(8px);
+            box-shadow: 0 2px 0 #006b54;
+            cursor: default;
+            border-color: #00b894;
+        }
+
+        .number-box.found::after {
+            content: '⭐';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 1.5rem;
+        }
+
+        .number-box:nth-child(1) { background: #ffb8b8; }
+        .number-box:nth-child(2) { background: #ffd4a8; }
+        .number-box:nth-child(3) { background: #fff3b8; }
+        .number-box:nth-child(4) { background: #b8f0b8; }
+        .number-box:nth-child(5) { background: #b8d9ff; }
+        .number-box:nth-child(6) { background: #d4b8ff; }
+        .number-box:nth-child(7) { background: #ffb8e6; }
+        .number-box:nth-child(8) { background: #b8e6e6; }
+        .number-box:nth-child(9) { background: #f5d4b8; }
+        .number-box:nth-child(10) { background: #d4f0c0; }
+
+        .status {
+            margin: 12px auto 0;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 14px 25px;
+            border-radius: 50px;
+            color: #2d3436;
+            font-weight: bold;
+            min-height: 3.8rem;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            max-width: 700px;
+            width: 100%;
+            justify-content: center;
+            border: 3px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .status .emoji {
+            font-size: 2rem;
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .celebration-box {
+            background: linear-gradient(135deg, #fd79a8, #6c5ce7);
+            padding: 50px 60px;
+            border-radius: 60px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 5px solid #fdcb6e;
+            max-width: 90%;
+        }
+
+        .celebration h2 {
+            color: #fdcb6e;
+            font-size: 3.5rem;
+            text-shadow: 4px 4px 0 #2d3436;
+            animation: bounce 1s infinite;
+        }
+
+        .celebration p {
+            color: white;
+            font-size: 1.8rem;
+            margin: 15px 0;
+        }
+
+        .celebration .big-emoji {
+            font-size: 4rem;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .celebration button {
+            padding: 16px 45px;
+            font-size: 1.4rem;
+            border: none;
+            border-radius: 30px;
+            background: #fdcb6e;
+            color: #2d3436;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #b7950b;
+            transition: all 0.1s ease;
+            font-family: inherit;
+            margin-top: 15px;
+        }
+
+        .celebration button:active {
+            transform: translateY(8px);
+            box-shadow: 0 0px 0 #b7950b;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @media (max-width: 650px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            h1 .emoji-big {
+                font-size: 2rem;
+            }
+            .game-info {
+                gap: 8px;
+            }
+            .info-item {
+                font-size: 0.85rem;
+                padding: 5px 14px;
+            }
+            .timer-display {
+                font-size: 1.1rem;
+                padding: 5px 14px;
+                min-width: 90px;
+            }
+            .number-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+                padding: 5px;
+            }
+            .number-box {
+                font-size: 2.2rem;
+                padding: 12px 5px;
+                border-radius: 18px;
+            }
+            .stage-btn {
+                font-size: 0.8rem;
+                padding: 7px 14px;
+            }
+            .level-btn {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+                min-width: 42px;
+            }
+            .status {
+                font-size: 0.95rem;
+                padding: 10px 16px;
+                min-height: 3rem;
+            }
+            .celebration-box {
+                padding: 30px 25px;
+            }
+            .celebration h2 {
+                font-size: 2.2rem;
+            }
+            .celebration p {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .number-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            .number-box {
+                font-size: 1.8rem;
+                padding: 10px 4px;
+                border-radius: 14px;
+                box-shadow: 0 6px 0 #b2bec3;
+            }
+            .number-box:active:not(.found) {
+                transform: translateY(5px);
+                box-shadow: 0 1px 0 #b2bec3;
+            }
+            .header {
+                padding: 12px 12px 10px;
+            }
+            .stage-buttons {
+                gap: 6px;
+            }
+            .stage-btn {
+                font-size: 0.7rem;
+                padding: 5px 10px;
+            }
+        }
+
+        .confetti-piece {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            animation: confettiFall linear forwards;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+
+<script>
+let __voicesReady=false;
+function __loadVoices(){speechSynthesis.getVoices();__voicesReady=true;}
+if('speechSynthesis'in window){
+speechSynthesis.onvoiceschanged=__loadVoices;
+document.addEventListener('click',function init(){
+__loadVoices();
+const u=new SpeechSynthesisUtterance('');
+u.volume=0;
+speechSynthesis.speak(u);
+speechSynthesis.cancel();
+document.removeEventListener('click',init);
+},{once:true});
+}
+</script>
+
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-top">
+            <h1>
+                <span class="emoji-big">🎈</span>
+                Sesli İngiliz Dili
+                <span class="emoji-big">🦄</span>
+            </h1>
+        </div>
+
+        <div class="game-info">
+            <div class="info-item">🏆 Turlar <span class="value gold" id="currentLevel">1</span>/10</div>
+            <div class="info-item">📚 Basganç <span class="value" id="currentStage">1</span>/3</div>
+            <div class="info-item">⭐ <span class="value" id="foundCount">0</span>/<span id="totalCount">10</span></div>
+            <div class="timer-display" id="timerDisplay">⏱️ 3:00</div>
+        </div>
+    </div>
+
+    <div class="level-buttons" id="levelButtons"></div>
+
+    <div class="stage-buttons" id="stageButtons">
+        <button class="stage-btn active" data-stage="0">
+            <span class="stage-icon">🌟</span> 1. Tertipli
+        </button>
+        <button class="stage-btn" data-stage="1" disabled>
+            <span class="stage-icon">🔀</span> 2. Garyşyk
+        </button>
+        <button class="stage-btn" data-stage="2" disabled>
+            <span class="stage-icon">⏱️</span> 3. Wagtly
+        </button>
+    </div>
+
+    <div class="number-grid" id="numberGrid"></div>
+
+    <div class="status" id="status">
+        <span class="emoji">👋</span>
+        <span id="statusText">Hoş geldiň! Bir sana bas</span>
+    </div>
+
+    <script>
+        // ============================================================
+        // OYUN AYARLARI - TÜM SAYILAR EKLENDİ!
+        // ============================================================
+        const TOTAL_LEVELS = 10;
+        const LEVEL_RANGES = [
+            { start: 1, end: 10 },
+            { start: 11, end: 20 },
+            { start: 21, end: 30 },
+            { start: 31, end: 40 },
+            { start: 41, end: 50 },
+            { start: 51, end: 60 },
+            { start: 61, end: 70 },
+            { start: 71, end: 80 },
+            { start: 81, end: 90 },
+            { start: 91, end: 100 }
+        ];
+
+        // ============================================================
+        // 1'DEN 100'E KADAR TÜM SAYILARIN İNGİLİZCE KARŞILIKLARI
+        // ============================================================
+        const numberWords = {};
+
+        // 1-19 arası özel kelimeler
+        const specialWords = {
+            1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five',
+            6: 'six', 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten',
+            11: 'eleven', 12: 'twelve', 13: 'thirteen', 14: 'fourteen',
+            15: 'fifteen', 16: 'sixteen', 17: 'seventeen', 18: 'eighteen', 19: 'nineteen'
+        };
+
+        // 20-90 arası onluklar
+        const tensWords = {
+            20: 'twenty', 30: 'thirty', 40: 'forty', 50: 'fifty',
+            60: 'sixty', 70: 'seventy', 80: 'eighty', 90: 'ninety'
+        };
+
+        // 1-100 arası tüm sayıları oluştur
+        for (let i = 1; i <= 100; i++) {
+            if (i <= 19) {
+                numberWords[i] = specialWords[i];
+            } else if (i % 10 === 0) {
+                numberWords[i] = tensWords[i];
+            } else if (i < 100) {
+                const tens = Math.floor(i / 10) * 10;
+                const ones = i % 10;
+                numberWords[i] = tensWords[tens] + ' ' + specialWords[ones];
+            } else {
+                numberWords[100] = 'one hundred';
+            }
+        }
+
+        // ============================================================
+        // OYUN DURUMU
+        // ============================================================
+        let state = {
+            currentLevel: 0,
+            currentStage: 0,
+            numbers: [],
+            foundNumbers: new Set(),
+            timerInterval: null,
+            timeLeft: 180,
+            isPlaying: true,
+            isComplete: false,
+            isLevelComplete: false
+        };
+
+        // ============================================================
+        // DOM REFERANSLARI
+        // ============================================================
+        const grid = document.getElementById('numberGrid');
+        const statusText = document.getElementById('statusText');
+        const statusEmoji = document.querySelector('.status .emoji');
+        const currentLevelSpan = document.getElementById('currentLevel');
+        const currentStageSpan = document.getElementById('currentStage');
+        const foundCountSpan = document.getElementById('foundCount');
+        const totalCountSpan = document.getElementById('totalCount');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const levelButtons = document.getElementById('levelButtons');
+        const stageButtons = document.getElementById('stageButtons');
+
+        // ============================================================
+        // SES FONKSİYONU (İNGİLİZCE)
+        // ============================================================
+        function speakNumber(number) {
+            const word = numberWords[number];
+            if (!word) {
+                console.warn('Kelime bulunamadı:', number);
+                return;
+            }
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85;
+                utterance.pitch = 1.1;
+                utterance.volume = 1;
+                const go=()=>window.speechSynthesis.speak(utterance);
+if(speechSynthesis.speaking){speechSynthesis.cancel();setTimeout(go,80);}else{go();}
+            }
+        }
+
+        // ============================================================
+        // TUR VE AŞAMA YÖNETİMİ
+        // ============================================================
+        function getLevelNumbers(level) {
+            const range = LEVEL_RANGES[level];
+            const nums = [];
+            for (let i = range.start; i <= range.end; i++) {
+                nums.push(i);
+            }
+            return nums;
+        }
+
+        function startLevel(levelIndex) {
+            state.currentLevel = levelIndex;
+            state.foundNumbers = new Set();
+            state.isComplete = false;
+            state.isLevelComplete = false;
+            state.numbers = getLevelNumbers(levelIndex);
+
+            stopTimer();
+            state.timeLeft = 180;
+            updateTimerDisplay();
+
+            startStage(0);
+            updateUI();
+        }
+
+        function startStage(stageIndex) {
+            if (state.currentStage === stageIndex && !state.isComplete) {
+                renderNumbers(stageIndex);
+                return;
+            }
+
+            state.currentStage = stageIndex;
+            state.foundNumbers = new Set();
+            state.isComplete = false;
+            state.isLevelComplete = false;
+            state.isPlaying = true;
+
+            stopTimer();
+            state.timeLeft = 180;
+            updateTimerDisplay();
+
+            if (stageIndex === 2) {
+                startTimer();
+                statusEmoji.textContent = '⏱️';
+                statusText.textContent = '⏰ 3 minut wagtyň bar! Ähli sanlary tap!';
+                timerDisplay.style.display = 'flex';
+            } else {
+                timerDisplay.style.display = 'flex';
+                if (stageIndex === 0) {
+                    statusEmoji.textContent = '🌟';
+                    statusText.textContent = 'Sanlara tertipli bas we iňlisçe öwren!';
+                } else {
+                    statusEmoji.textContent = '🔀';
+                    statusText.textContent = 'Sanlar garyşyk! Bas we iňlisçe öwren!';
+                }
+            }
+
+            renderNumbers(stageIndex);
+            updateUI();
+            updateStageButtons();
+            updateLevelButtons();
+        }
+
+        // ============================================================
+        // SAYILARI GÖSTER
+        // ============================================================
+        function renderNumbers(stage) {
+            grid.innerHTML = '';
+            const numbers = state.numbers;
+
+            let displayNumbers = [...numbers];
+            if (stage === 1 || stage === 2) {
+                displayNumbers = shuffleArray([...numbers]);
+            }
+
+            displayNumbers.forEach(num => {
+                const box = document.createElement('div');
+                box.className = 'number-box';
+                box.textContent = num;
+                box.dataset.number = num;
+
+                if (state.foundNumbers.has(num)) {
+                    box.classList.add('found');
+                }
+
+                box.addEventListener('click', () => handleNumberClick(num, box));
+                grid.appendChild(box);
+            });
+
+            totalCountSpan.textContent = numbers.length;
+            foundCountSpan.textContent = state.foundNumbers.size;
+        }
+
+        // ============================================================
+        // SAYI TIKLAMA
+        // ============================================================
+        function handleNumberClick(number, boxElement) {
+            if (state.isComplete || state.isLevelComplete || state.foundNumbers.has(number)) return;
+            if (!state.isPlaying) return;
+
+            speakNumber(number);
+            state.foundNumbers.add(number);
+            boxElement.classList.add('found');
+
+            foundCountSpan.textContent = state.foundNumbers.size;
+
+            statusEmoji.textContent = '🔊';
+            statusText.textContent = `${number} → ${numberWords[number]}`;
+
+            checkCompletion();
+        }
+
+        // ============================================================
+        // TAMAMLAMA KONTROLÜ
+        // ============================================================
+        function checkCompletion() {
+            const total = state.numbers.length;
+            const found = state.foundNumbers.size;
+
+            if (found === total) {
+                state.isComplete = true;
+                state.isPlaying = false;
+                stopTimer();
+
+                if (state.currentStage === 2) {
+                    const timeUsed = 180 - state.timeLeft;
+                    const minutes = Math.floor(timeUsed / 60);
+                    const seconds = timeUsed % 60;
+                    statusEmoji.textContent = '🎉';
+                    statusText.textContent = `🎉 Gutlaýarys! ${minutes}:${seconds.toString().padStart(2, '0')} minutda tamamladyň! 🎉`;
+                } else {
+                    statusEmoji.textContent = '🎉';
+                    statusText.textContent = '🎉 Gutlaýarys! Ähli sanlary tapdyň! 🎉';
+                }
+
+                const levelBtn = document.querySelectorAll('.level-btn')[state.currentLevel];
+                if (levelBtn) levelBtn.classList.add('completed');
+
+                enableNextStage();
+
+                if (state.currentLevel === TOTAL_LEVELS - 1 && state.currentStage === 2) {
+                    showCelebration();
+                }
+            }
+        }
+
+        // ============================================================
+        // SONRAKİ AŞAMAYI AKTİF ET
+        // ============================================================
+        function enableNextStage() {
+            const stageBtns = document.querySelectorAll('.stage-btn');
+            const nextStage = state.currentStage + 1;
+
+            if (nextStage < 3) {
+                stageBtns[nextStage].disabled = false;
+                statusEmoji.textContent = '👉';
+                statusText.textContent = `✅ ${state.currentStage + 1}. basganç tamamlandy! ${nextStage + 1}. basgança geç!`;
+            } else {
+                if (state.currentLevel < TOTAL_LEVELS - 1) {
+                    statusEmoji.textContent = '🏆';
+                    statusText.textContent = `🎊 ${state.currentLevel + 1}. tur tamamlandy! Indiki tura geç!`;
+                } else {
+                    statusEmoji.textContent = '🏆';
+                    statusText.textContent = '🎊 Ähli turlar tamamlandy! Sen ajaýyp! 🎊';
+                }
+            }
+        }
+
+        // ============================================================
+        // GERİ SAYIM (TIMER)
+        // ============================================================
+        function startTimer() {
+            stopTimer();
+            state.timeLeft = 180;
+            updateTimerDisplay();
+
+            state.timerInterval = setInterval(() => {
+                state.timeLeft--;
+                updateTimerDisplay();
+
+                if (state.timeLeft <= 0) {
+                    stopTimer();
+                    state.isPlaying = false;
+                    statusEmoji.textContent = '⏰';
+                    statusText.textContent = '⏰ Wagt gutardy! Ýene synanyş!';
+
+                    const allNumbers = state.numbers;
+                    allNumbers.forEach(num => {
+                        if (!state.foundNumbers.has(num)) {
+                            const boxes = document.querySelectorAll('.number-box');
+                            boxes.forEach(box => {
+                                if (parseInt(box.dataset.number) === num) {
+                                    box.style.background = '#ff6b6b';
+                                    box.style.color = 'white';
+                                    box.style.borderColor = '#c0392b';
+                                }
+                            });
+                        }
+                    });
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (state.timerInterval) {
+                clearInterval(state.timerInterval);
+                state.timerInterval = null;
+            }
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(state.timeLeft / 60);
+            const seconds = state.timeLeft % 60;
+            timerDisplay.textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            if (state.timeLeft < 30) {
+                timerDisplay.classList.add('warning');
+            } else {
+                timerDisplay.classList.remove('warning');
+            }
+        }
+
+        // ============================================================
+        // YARDIMCI FONKSİYONLAR
+        // ============================================================
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function updateUI() {
+            currentLevelSpan.textContent = state.currentLevel + 1;
+            currentStageSpan.textContent = state.currentStage + 1;
+            foundCountSpan.textContent = state.foundNumbers.size;
+            updateLevelButtons();
+            updateStageButtons();
+        }
+
+        function updateLevelButtons() {
+            document.querySelectorAll('.level-btn').forEach((btn, index) => {
+                btn.classList.toggle('active', index === state.currentLevel);
+            });
+        }
+
+        function updateStageButtons() {
+            const stageBtns = document.querySelectorAll('.stage-btn');
+            stageBtns.forEach((btn, index) => {
+                btn.classList.toggle('active', index === state.currentStage);
+            });
+        }
+
+        // ============================================================
+        // KUTLAMA EKRANI + KONFETİ
+        // ============================================================
+        function showCelebration() {
+            for (let i = 0; i < 80; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.top = '-10%';
+                piece.style.background = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#1dd1a1', '#f368e0'][Math.floor(Math.random() * 8)];
+                piece.style.width = (Math.random() * 10 + 6) + 'px';
+                piece.style.height = (Math.random() * 10 + 6) + 'px';
+                piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                piece.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                piece.style.animationDelay = (Math.random() * 2) + 's';
+                document.body.appendChild(piece);
+                setTimeout(() => piece.remove(), 5000);
+            }
+
+            const overlay = document.createElement('div');
+            overlay.className = 'celebration';
+            overlay.innerHTML = `
+                <div class="celebration-box">
+                    <span class="big-emoji">🏆</span>
+                    <h2>GUTLAÝARYS!</h2>
+                    <p>🎊 Ähli turlary tamamladyň! 🎊</p>
+                    <span class="big-emoji">🌟👏🌟</span>
+                    <p style="font-size:1.2rem; color:#fdcb6e;">Sen san awçysy! 🦄</p>
+                    <button onclick="this.closest('.celebration').remove(); startLevel(0);">🔄 Täzeden oýna</button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+
+            if ('speechSynthesis' in window) {
+                setTimeout(() => {
+                    const msg = new SpeechSynthesisUtterance('Congratulations! You are amazing!');
+                    msg.lang = 'en-US';
+                    msg.rate = 0.9;
+                    window.speechSynthesis.speak(msg);
+                }, 500);
+            }
+        }
+
+        // ============================================================
+        // BUTON OLUŞTURMA
+        // ============================================================
+        function createLevelButtons() {
+            levelButtons.innerHTML = '';
+            for (let i = 0; i < TOTAL_LEVELS; i++) {
+                const btn = document.createElement('button');
+                const range = LEVEL_RANGES[i];
+                btn.className = 'level-btn';
+                btn.textContent = `${range.start}-${range.end}`;
+                btn.dataset.level = i;
+                btn.addEventListener('click', () => {
+                    if (i !== state.currentLevel || state.isComplete) {
+                        startLevel(i);
+                    }
+                });
+                levelButtons.appendChild(btn);
+            }
+        }
+
+        // ============================================================
+        // AŞAMA BUTONLARI OLAY YÖNETİCİLERİ
+        // ============================================================
+        document.querySelectorAll('.stage-btn').forEach((btn) => {
+            btn.addEventListener('click', function() {
+                const stage = parseInt(this.dataset.stage);
+                if (!this.disabled) {
+                    startStage(stage);
+                }
+            });
+        });
+
+        // ============================================================
+        // BAŞLANGIÇ
+        // ============================================================
+        function init() {
+            createLevelButtons();
+            startLevel(0);
+            document.querySelectorAll('.stage-btn').forEach((btn, index) => {
+                btn.disabled = index > 0;
+            });
+        }
+
+        init();
+
+        console.log('🎯 Sesli İngiliz Dili - Oýun başlady!');
+        console.log('📚 10 tur, her tur 3 basganç');
+        console.log('🌟 1. Tertipli, 2. Garyşyk, 3. Wagtly (3 min)');
+        console.log('🔢 1\'den 100\'e kadar ähli sanlar goşuldy!');
+    </script>
+
+</body>
+</html>
